@@ -8,18 +8,21 @@ use App\Models\InventoryBrand;
 use App\Models\InventoryPartname;
 use App\Models\Inventory;
 use Excel;
+use Auth;
 use App\Models\User;
  
 class InventoryController extends Controller
 {
    public function import(request $req){
+     
     $check = Inventory::where('branch_id', $req->branch)->where('as_of', $req->date)->get()->first();
     if($check){
       return ['msg'=>'Already Inserted'];
     }else{
+       
       $Invty = new Inventory();
       $Invty->branch_id = $req->branch;
-      $Invty->user_id = 5;
+      $Invty->user_id = Auth::user()->id;
       $Invty->as_of = $req->date;
       $Invty->save();
       $InvtyUpdate = Inventory::find($Invty->id);

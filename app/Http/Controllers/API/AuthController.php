@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
 use DB;
+use Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
  
@@ -88,6 +89,18 @@ class AuthController extends Controller
             $delete = User::find($user['id'])->delete();
         }
         return ['msg'=> 'users is already deleted..!', 'color'=>'positive'];
+      }
+      public function GetUser(){
+        $user = Auth::user();
+        $user_roles = Auth::user()->roles->pluck('name')->all();
+
+        $user_permissions = Auth::user()->getAllPermissions()->pluck('name');
+
+        return response()->json([
+            'user'=> ['name'=> $user->name ,'email'=>$user->email],
+            'user_roles' => $user_roles, 
+            'user_permissions' => $user_permissions,
+        ], 200);
       }
  
 }
