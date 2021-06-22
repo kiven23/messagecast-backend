@@ -24,7 +24,6 @@ class Branches extends Controller
           
        }
        public function BranchesUpdate(request $req){
-           
               try{
                    $update = InventoryBranch::find($req->branchID);
                    $update->branch = $req->branch;
@@ -36,7 +35,6 @@ class Branches extends Controller
               }
        }
        public function BranchesTrash(request $req){
-              
              try{
               foreach($req->trash as $id){
                      InventoryBranch::find($id['id'])->delete();
@@ -45,10 +43,6 @@ class Branches extends Controller
               return ['msg'=> 'Branch is already deleted', 'color'=>'positive'];
              }catch(\Exception $e){
               return ['msg'=> $e->getMessage(), 'color'=>'negative']; 
-             }
-            
-            
-              
-             
+             }    
        }
 }

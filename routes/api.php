@@ -16,19 +16,17 @@ use Illuminate\Support\Facades\Route;
         Route::get('/login', 'App\Http\Controllers\ExamsController@login')->name('login');
         Route::post('/register/user', 'App\Http\Controllers\API\AuthController@register');
         Route::post('/login/user', 'App\Http\Controllers\API\AuthController@login');
-        
-        
+        Route::get('/messagecast/branch/index', 'App\Http\Controllers\MessageCastController@index');
+        Route::post('/messagecast/marketing/send', 'App\Http\Controllers\MessageCastController@send');
+        Route::get('/messagecast/contacts/index', 'App\Http\Controllers\MessageCastController@fetch_contact');
 Route::middleware('auth:api')->group(function () {
         Route::post('/login/auth', 'App\Http\Controllers\API\AuthController@login_auth');
         Route::get('/branches/get', 'App\Http\Controllers\InventoryController@branches');
-        Route::post('/import/inventory', 'App\Http\Controllers\InventoryController@import');
-        Route::post('/inventory/index', 'App\Http\Controllers\InventoryController@inventories_getItems');
-        Route::post('/inventory/index/update', 'App\Http\Controllers\InventoryController@inventories_Item_Update');
-        
         Route::get('/inventory/index', 'App\Http\Controllers\InventoryController@inventories_list');
+       
+       
         Route::middleware('globalauthorize')->group(function(){
                 //->Import Inventory
-               
                 //->Permissions
                 Route::post('/permission/create', 'App\Http\Controllers\RolesAndPermissionController@permissionsCreate');
                 Route::post('/permission/index', 'App\Http\Controllers\RolesAndPermissionController@permissionsIndex');
@@ -56,8 +54,14 @@ Route::middleware('auth:api')->group(function () {
                 //->GetUserLogin-Info
             
         });
-       
         Route::post('/Users/Authorize', 'App\Http\Controllers\API\AuthController@GetUser');
+
+        //->create customer
+        Route::post('/messagecast/marketing/create', 'App\Http\Controllers\MessageCastController@createContact');
+        //->update customer
+        Route::post('/messagecast/marketing/update', 'App\Http\Controllers\MessageCastController@updateContact');
+        //->Get Logs
+        Route::post('/messagecast/marketing/logs', 'App\Http\Controllers\MessageCastController@logs');
 
 });
 

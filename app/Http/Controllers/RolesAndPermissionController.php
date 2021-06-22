@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -22,7 +21,6 @@ class RolesAndPermissionController extends Controller
        return ['msg'=>'Created', 'color'=>'positive'];
       }catch(\Exception $e){
        return ['msg'=> $e->getMessage(), 'color'=>'negative'];
-       
       }
    }
    public function permissionsEdit(request $req){
@@ -36,9 +34,7 @@ class RolesAndPermissionController extends Controller
       return ['msg'=>'Update Success', 'color'=>'positive'];
     }catch(\Exception $e){
       return ['msg'=> $e->getMessage(), 'color'=>'negative'];
-     
     }
-
    }
    public function permissionsTrash(request $req){
      try{

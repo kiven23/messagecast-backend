@@ -26,6 +26,13 @@ class AuthController extends Controller
             'roles' => 'required',
         ]);
       // $validatedData['password'] = bcrypt($request->password);
+            $trigger = [];
+            foreach($request->roles as $role){
+            if($role == 1){
+                $trigger = 1;
+            } 
+            }
+            if(!$trigger){
        $user = new User();
        $user->name = $request->name;
        $user->email = $request->email;
@@ -34,7 +41,9 @@ class AuthController extends Controller
        $user->save();
        $user->assignRole($request->roles);
        $accessToken = $user->createToken('authToken')->accessToken;
-            return response([ 'user' => $user, 'access_token' => $accessToken, 'msg'=>'Update Success', 'color'=>'positive']);
+        return response([ 'user' => $user, 'access_token' => $accessToken, 'msg'=>'Update Success', 'color'=>'positive']);
+            }
+        return ['msg'=>'Access Denied, Please Contact super admin', 'color'=>'negative'];   
         }catch(\Exception $e){
             return ['msg'=> $e->getMessage(), 'color'=>'negative'];
         }
@@ -63,8 +72,15 @@ class AuthController extends Controller
     
       }
       public function UsersUpdate(request $request){
- 
-          if($request->branch['value']){
+        $trigger = [];
+          foreach($request->roles as $role){
+            if($role == 1){
+                $trigger = 1;
+            } 
+          }
+
+        if(!$trigger){
+         if($request->branch['value']){
               $branch = $request->branch['value'];
           }else{
               $branch = $request->branch;
@@ -83,6 +99,8 @@ class AuthController extends Controller
         DB::table('model_has_roles')->where('model_id', $user->id)->delete();
         $user->assignRole($request->roles);
         return ['msg'=>'Update Success', 'color'=>'positive'];
+        } 
+        return ['msg'=>'Access Denied, Please Contact super admin', 'color'=>'negative'];
       }
       public function UsersTrash(request $req){
         foreach($req->id as $user){
@@ -102,5 +120,4 @@ class AuthController extends Controller
             'user_permissions' => $user_permissions,
         ], 200);
       }
- 
 }

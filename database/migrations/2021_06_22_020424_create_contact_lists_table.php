@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class GlobalAuthorization extends Migration
+class CreateContactListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,13 @@ class GlobalAuthorization extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('contact_lists', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('contact_number');
+            $table->string('location');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class GlobalAuthorization extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('contact_lists');
     }
 }

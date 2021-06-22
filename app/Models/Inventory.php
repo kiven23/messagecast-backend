@@ -16,8 +16,6 @@ class Inventory extends Model
     {
         return $this->hasOne(InventoryBranch::class, 'id', 'branch_id');
     }
-    public function invty_list(){
-        return $this->hasMany(InventoryPartname::class, 'control_id', 'control_id');
-    }
+ 
 
 }
