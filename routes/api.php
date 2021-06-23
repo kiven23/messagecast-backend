@@ -62,7 +62,13 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/messagecast/marketing/update', 'App\Http\Controllers\MessageCastController@updateContact');
         //->Get Logs
         Route::post('/messagecast/marketing/logs', 'App\Http\Controllers\MessageCastController@logs');
-
+        //->PerUser Sent
+        Route::post('/messagecast/marketing/user/sent', 'App\Http\Controllers\MessageCastController@usersent');
+        //->Clear Logs
+        Route::post('/messagecast/marketing/clearlogs', 'App\Http\Controllers\MessageCastController@clearlogs');
+        //->Delete
+        Route::post('/messagecast/marketing/trash', 'App\Http\Controllers\MessageCastController@trashUser');
+        
 });
 
 
