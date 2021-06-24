@@ -125,4 +125,7 @@ class MessageCastController extends Controller
     public function trashUser(request $req){
         ContactList::find($req->id)->delete();
     }
+    public function sendTigger(){
+        return "test";
+    }
 }

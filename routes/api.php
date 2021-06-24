@@ -68,7 +68,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/messagecast/marketing/clearlogs', 'App\Http\Controllers\MessageCastController@clearlogs');
         //->Delete
         Route::post('/messagecast/marketing/trash', 'App\Http\Controllers\MessageCastController@trashUser');
-        
+        //->SendTriggering
+        Route::post('/messagecast/branch/triggering', 'App\Http\Controllers\MessageCastController@sendTigger');
 });
 
 
