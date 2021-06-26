@@ -68,8 +68,13 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/messagecast/marketing/clearlogs', 'App\Http\Controllers\MessageCastController@clearlogs');
         //->Delete
         Route::post('/messagecast/marketing/trash', 'App\Http\Controllers\MessageCastController@trashUser');
+        
+        
+        //->PAYMENT REMINDER
         //->SendTriggering
         Route::post('/messagecast/branch/triggering', 'App\Http\Controllers\MessageCastController@sendTigger');
+        //->SyncData
+        Route::post('/messagecast/sync/data', 'App\Http\Controllers\CustomerReminderController@sync');
 });
 
 

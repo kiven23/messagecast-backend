@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Models\ContactList;
 use App\Models\ActivityLogs;
+use App\Models\CustomerReminder;
+use App\Models\PaymentTerms;
 use DB;
+use Carbon\Carbon;
 class MessageCastController extends Controller
 {
     public function index(){
@@ -126,6 +129,36 @@ class MessageCastController extends Controller
         ContactList::find($req->id)->delete();
     }
     public function sendTigger(){
-        return "test";
+        $check = DB::table('payment_terms')
+                            ->join('customer_reminders', 'payment_terms.user_id','=','customer_reminders.id')
+        
+        ->get();
+        foreach($check as $res){
+            //$response[] = '₱ '.round($res->total, 2);
+            $duedate = $res->date;
+            $dt = new \DateTime($duedate);
+            $carbon = Carbon::instance($dt)->subDays(7)->toDateString();
+            $today = Carbon::now()->toDateString();
+            if('2022-06-13' == $carbon){
+                if($res->status == 0){
+                    $dueDay = new Carbon($res->date);
+                    $dueDay->addDay(7);
+                    $message = 'Hi '.$res->name.' This is to remind you that payment of an invoice for an account number ('.$res->customercode.') will be due on '.$dueDay->toDateString().'. The total amount is ('.round($res->total, 2).' - pesos). Please make your payments to the account number specified on the invoice.';
+                    $full_link = 'http://mcpro1.sun-solutions.ph/mc/send.aspx?user=ADDESSA&pass=MPoq5g7y&from=ADDESSA&to='.$res->number.'&msg='.$message.'';
+                    $client = new Client;
+                    $response = $client->request('GET', $full_link);
+                    $msg[] =  ['msg'=> $message,'date'=> $carbon, 'response'=> $response->getBody(), 'userid'=> $res->id];
+                  
+                    //$msg[] =  ['msg'=> 'proccessing','date'=> $carbon , 'status'=>  $res->status];
+                    DB::table('payment_terms')->where('user_id', $res->id)->where('date', $res->date)->update([
+                        'status'=> 1
+                    ]);
+                }
+            }
+            $msg[] =  ['msg'=> 'proccessing','date'=> $carbon , 'status'=> 0, 'userid'=> $res->id];
+        }
+        return $msg;
+        
     }
+    
 }
