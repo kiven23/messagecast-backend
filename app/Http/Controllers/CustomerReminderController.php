@@ -44,7 +44,6 @@ class CustomerReminderController extends Controller
                     }
             }
         }
-
         return response()->json($out);
     }
 }

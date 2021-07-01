@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class MessageCastController extends Controller
 {
     public function index(){
-        $get =   DB::table('contact_lists')->get();
+       $get =   DB::table('contact_lists')->get();
         $client = new Client();
         $response = $client->get('https://mocki.io/v1/7b9376f7-2a13-4c06-b5fd-219307b6774e');
         $res =  json_decode($response->getBody());

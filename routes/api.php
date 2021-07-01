@@ -75,7 +75,9 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/messagecast/branch/triggering', 'App\Http\Controllers\MessageCastController@sendTigger');
         //->SyncData
         Route::post('/messagecast/sync/data', 'App\Http\Controllers\CustomerReminderController@sync');
+         //->SyncArInvoice
+     
 });
 
 
-  
+Route::get('/messagecast/sync/arinvoice', 'App\Http\Controllers\ArInvoice@index');
