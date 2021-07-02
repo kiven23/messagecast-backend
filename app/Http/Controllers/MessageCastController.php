@@ -129,7 +129,8 @@ class MessageCastController extends Controller
         ContactList::find($req->id)->delete();
     }
     public function sendTigger(){
-        $check = DB::table('payment_terms')
+         
+      $check = DB::table('payment_terms')
                             ->join('customer_reminders', 'payment_terms.user_id','=','customer_reminders.id')
         
         ->get();
@@ -139,10 +140,10 @@ class MessageCastController extends Controller
             $dt = new \DateTime($duedate);
             $carbon = Carbon::instance($dt)->subDays(7)->toDateString();
             $today = Carbon::now()->toDateString();
-            if('2022-06-13' == $carbon){
+            if('2021-08-28' == $carbon){
                 if($res->status == 0){
                     $dueDay = new Carbon($res->date);
-                    $dueDay->addDay(7);
+                    //$dueDay->addDay(7);
                     $message = 'Hi '.$res->name.' This is to remind you that payment of an invoice for an account number ('.$res->customercode.') will be due on '.$dueDay->toDateString().'. The total amount is ('.round($res->total, 2).' - pesos). Please make your payments to the account number specified on the invoice.';
                     $full_link = 'http://mcpro1.sun-solutions.ph/mc/send.aspx?user=ADDESSA&pass=MPoq5g7y&from=ADDESSA&to='.$res->number.'&msg='.$message.'';
                     $client = new Client;
@@ -158,6 +159,9 @@ class MessageCastController extends Controller
             $msg[] =  ['msg'=> 'proccessing','date'=> $carbon , 'status'=> 0, 'userid'=> $res->id];
         }
         return $msg;
+        
+    }
+    public function urlFunction(){
         
     }
     
