@@ -23,8 +23,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/login/auth', 'App\Http\Controllers\API\AuthController@login_auth');
         Route::get('/branches/get', 'App\Http\Controllers\InventoryController@branches');
         Route::get('/inventory/index', 'App\Http\Controllers\InventoryController@inventories_list');
-       
-       
         Route::middleware('globalauthorize')->group(function(){
                 //->Import Inventory
                 //->Permissions
@@ -71,15 +69,16 @@ Route::middleware('auth:api')->group(function () {
         
         
         //->PAYMENT REMINDER
-        //->SendTriggering
-        Route::post('/messagecast/branch/triggering', 'App\Http\Controllers\MessageCastController@sendTigger');
-        //->SyncData
-        Route::post('/messagecast/sync/data', 'App\Http\Controllers\CustomerReminderController@sync');
+    
+       
         //->ContactList
         Route::get('/messagecast/paymentreminder/accountlist', 'App\Http\Controllers\CustomerReminderController@GetContacts');
         //GetReminders
         Route::post('/messagecast/paymentreminder/reminders', 'App\Http\Controllers\CustomerReminderController@GetReminders');
+        
 });
-
-
-Route::get('/messagecast/sync/arinvoice', 'App\Http\Controllers\ArInvoice@index');
+        //->SyncData
+        Route::post('/messagecast/sync/data', 'App\Http\Controllers\CustomerReminderController@sync');
+        //->SendTriggering
+        Route::get('/messagecast/branch/triggering', 'App\Http\Controllers\MessageCastController@sendTigger');
+        Route::get('/messagecast/sync/arinvoice', 'App\Http\Controllers\ArInvoice@index');

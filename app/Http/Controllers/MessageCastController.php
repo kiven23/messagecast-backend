@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class MessageCastController extends Controller
 {
     public function index(){
-       $get =   DB::table('contact_lists')->get();
+        $get =   DB::table('contact_lists')->get();
         $client = new Client();
         $response = $client->get('https://mocki.io/v1/7b9376f7-2a13-4c06-b5fd-219307b6774e');
         $res =  json_decode($response->getBody());
@@ -140,7 +140,7 @@ class MessageCastController extends Controller
             $dt = new \DateTime($duedate);
             $carbon = Carbon::instance($dt)->subDays(7)->toDateString();
             $today = Carbon::now()->toDateString();
-            if('2021-08-28' == $carbon){
+            if($today == $carbon){
                 if($res->status == 0){
                     $dueDay = new Carbon($res->date);
                     //$dueDay->addDay(7);
@@ -162,7 +162,8 @@ class MessageCastController extends Controller
         
     }
     public function urlFunction(){
-        
+        $client = new Client;
+        $response = $client->request('GET', '');
     }
     
 }
