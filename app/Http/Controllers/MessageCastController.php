@@ -132,7 +132,6 @@ class MessageCastController extends Controller
          
       $check = DB::table('payment_terms')
                             ->join('customer_reminders', 'payment_terms.user_id','=','customer_reminders.id')
-        
         ->get();
         foreach($check as $res){
             //$response[] = '₱ '.round($res->total, 2);
@@ -140,7 +139,7 @@ class MessageCastController extends Controller
             $dt = new \DateTime($duedate);
             $carbon = Carbon::instance($dt)->subDays(7)->toDateString();
             $today = Carbon::now()->toDateString();
-            if($today == $carbon){
+            if( '2021-09-08' == $carbon){
                 if($res->status == 0){
                     $dueDay = new Carbon($res->date);
                     //$dueDay->addDay(7);
@@ -149,7 +148,13 @@ class MessageCastController extends Controller
                     $client = new Client;
                     $response = $client->request('GET', $full_link);
                     $msg[] =  ['msg'=> $message,'date'=> $carbon, 'response'=> $response->getBody(), 'userid'=> $res->id];
-                  
+                    DB::table('reminder_logs')->insert([
+                        'customer'=> $res->customercode,
+                        'name'=> $res->name,
+                        'duedate'=> $dueDay->toDateString(),
+                        'sentdate'=> $carbon,
+                        'message'=>$message
+                    ]);
                     //$msg[] =  ['msg'=> 'proccessing','date'=> $carbon , 'status'=>  $res->status];
                     DB::table('payment_terms')->where('user_id', $res->id)->where('date', $res->date)->update([
                         'status'=> 1

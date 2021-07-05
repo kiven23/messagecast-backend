@@ -59,4 +59,7 @@ class CustomerReminderController extends Controller
     public function GetReminders(request $req){
         return DB::table('payment_terms')->where('user_id', $req->id)->get();
     }
+    public function ReminderLogs(){
+        return DB::table('reminder_logs')->get();
+    }
 }

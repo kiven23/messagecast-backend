@@ -75,7 +75,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/messagecast/paymentreminder/accountlist', 'App\Http\Controllers\CustomerReminderController@GetContacts');
         //GetReminders
         Route::post('/messagecast/paymentreminder/reminders', 'App\Http\Controllers\CustomerReminderController@GetReminders');
-        
+        //->ReminderLogs
+         Route::post('/messagecast/paymentreminder/reminderlogs', 'App\Http\Controllers\CustomerReminderController@ReminderLogs');
 });
         //->SyncData
         Route::post('/messagecast/sync/data', 'App\Http\Controllers\CustomerReminderController@sync');
